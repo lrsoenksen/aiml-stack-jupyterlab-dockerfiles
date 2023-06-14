@@ -47,7 +47,7 @@ Note that building these docker images requires acceptance of the [cuDNN license
 
 Test the image with GPU using the following commands
 ```
-sudo docker run --gpus all --rm --interactive --tty lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import tensorflow as tf; print(tf.config.list_physical_devices(device_type='GPU'))'
+sudo docker run --gpus all --rm --interactive --tty lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import tensorflow as tf; print(tf.config.list_physical_devices())'
 ```
 ```
 sudo docker run --gpus all --rm --interactive --tty lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import torch; print(torch.rand(5, 5).cuda()); print("I love Lambda Stack with GPUs: ", end=""); print(torch.cuda.device_count())'
@@ -70,6 +70,9 @@ jupyter lab --ip=0.0.0.0 --port=8888 --allow-root --no-browser --core-mode
 ### Automatically Run Jupyter Lab image
 ```
 sudo docker run -it --gpus all -p 8888:8888 -p 6006:6006 -v /home/aiml:/root/ -e GRANT_SUDO=yes -e JUPYTER_ENABLE_LAB=yes --user root lrsoenksen/aiml-stack:latest-gpu-jupyter bash -c "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --core-mode"
+
+sudo docker run -it --gpus all -p 8888:8888 -p 6006:6006 -v /home/aiml:/root/ -e GRANT_SUDO=yes -e JUPYTER_ENABLE_LAB=yes -u $(id -u):$(id -g) lrsoenksen/aiml-stack:latest-gpu-jupyter bash -c "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --core-mode"
+
 ```
 where the -p 6006 is the default port of TensorBoard. This will allocate a port for you to run one TensorBoard instance. If not needed, port 6006 that can be removed
 

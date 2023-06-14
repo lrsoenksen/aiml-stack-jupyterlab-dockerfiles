@@ -2,7 +2,6 @@
 # Author: Luis Soenksen
 FROM jupyter/tensorflow-notebook
 FROM tensorflow/tensorflow:latest-gpu-jupyter
-WORKDIR /root/
 
 # Install baseline utility tools
 ARG DEBIAN_FRONTEND=noninteractive
