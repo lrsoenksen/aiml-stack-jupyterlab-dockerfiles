@@ -4,10 +4,24 @@ FROM jupyter/tensorflow-notebook
 FROM tensorflow/tensorflow:latest-gpu-jupyter
 WORKDIR /root/
 
+# Install baseline utility tools
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y\
+	sudo \
+	wget \
+	git-core \
+	apt-utils \
+	build-essential \
+	curl \
+	yarn \
+	npm \
+ 	nodejs &&\
+	rm -rf /var/lib/apt/lists/*
+
 # Prepare Container with JupyterLab and JupyterLab extensions
 ENV PIP_ROOT_USER_ACTION=ignore
 RUN pip install --upgrade pip
-RUN pip install jupyter -U && pip install jupyterlab 
+RUN pip install jupyter -U && pip install jupyterlab
 RUN pip install \
 	notebook \
 	ipywidgets \
@@ -24,23 +38,23 @@ RUN pip install \
 	jupyterlab-drawio \
 	jupyterlab_execute_time \
 	jupyter-dash \
-	jupyterlab-plotly \
 	jupyterlab-dash \
-	python-lsp-server \
 	jupyterlab-git \
 	jupyterlab-github \
-	formatter \
 	jupyter_bokeh \
 	Execution-Time \
 	jupyterlab-topbar \
 	jupyterlab-topbar-text \
 	jupyterlab_latex \
-	jupyterlab_tensorboard \
+	jupyterlab_tensorboard-pro \
 	jupyterlab_nvdashboard \
 	jupyterlab-system-monitor \
 	jupyterlab_sql \
 	aquirdturtle_collapsible_headings \
-	lckr-jupyterlab-variableinspector
+	lckr-jupyterlab-variableinspector \
+	jupyter-lsp \
+	jupyterlab-lsp \
+	python-language-server[all]
 
 # Install Useful AI-ML and Visualization Packages
 ENV TF_CPP_MIN_LOG_LEVEL=3
@@ -69,3 +83,5 @@ RUN pip install \
 	autokeras \
 	lazypredict \
 	transformers
+
+# Add more PIP installs here --^
