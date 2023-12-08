@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y\
 ENV PIP_ROOT_USER_ACTION=ignore
 RUN pip install --upgrade pip
 RUN pip install jupyter -U && pip install jupyterlab
-RUN pip install --ignore-installed \
+RUN pip install \
 	notebook \
 	jupyter_nbextensions_configurator \
 	jupyter_server \
@@ -53,8 +53,7 @@ RUN pip install --ignore-installed \
 	lckr-jupyterlab-variableinspector \
 	jupyter-lsp \
 	jupyterlab-lsp \
-	python-language-server[all] \
-	jupyterlab_widgets
+	python-language-server[all]
 
 # Install Useful AI-ML and Visualization Packages
 ENV TF_CPP_MIN_LOG_LEVEL=3
