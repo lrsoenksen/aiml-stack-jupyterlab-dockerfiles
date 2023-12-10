@@ -85,6 +85,11 @@ pip install jupyter -U && pip install jupyterlab
 ### Reset everything (OPTIONAL - DON'T DO CARELESSLY)
 The following is a radical solution. But if needed one can DELETES ALL YOUR DOCKER STUFF. INCLUDING VOLUMES like this:
 ```
+docker container prune -f
+docker image prune -f
+docker volume prune -f
+docker system prune -f
+
 docker stop $(docker ps -a -q)
 docker rm -f $(docker ps -a -q)
 docker image rm -f $(docker image ls -a -q) 
