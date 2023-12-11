@@ -25,7 +25,7 @@ Ensure that you have a docker version > 19.03. On Ubuntu, you can simply run `su
 
 ### Download Dockerfile from repo
 ```
-git clone https://github.com/lrsoenksen/aiml-stack-jupyterlab-dockerfiles
+git clone https://github.com/lrsoenksen/aiml-stack-jupyterlab-dockerfiles.git
 cd aiml-stack-jupyterlab-dockerfiles
 ```
 Download from https://github.com/lrsoenksen/aiml-lambda-stack-jupyterlab-dockerfiles
