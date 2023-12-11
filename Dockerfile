@@ -41,7 +41,6 @@ RUN pip install \
 	jupyterlab-git \
 	jupyterlab-github \
 	jupyter_bokeh \
-	Execution-Time \
 	jupyterlab-topbar \
 	jupyterlab-topbar-text \
 	jupyterlab_latex \
