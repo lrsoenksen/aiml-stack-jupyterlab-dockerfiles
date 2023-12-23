@@ -61,10 +61,19 @@ And these commands can be used to test functionality
 python3 -c 'import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))'
 python3 -c 'import torch; print(torch.rand(5, 5).cuda()); print("I love Lambda Stack with GPUs: ", end=""); print(torch.cuda.device_count())'
 python3 -c 'import tensorflow as tf; print(tf.__version__)'
-python3 -c 'from tensorflow import keras; print(keras.__version__)'
+python3 -c 'import keras; print(keras.__version__)'
 python3 -c 'import cv2; print(cv2.__version__)'
 python3 -c 'import torch; print(torch.__version__)'
 jupyter lab --ip=0.0.0.0 --port=8888 --allow-root --no-browser --core-mode
+```
+or
+```
+import tensorflow as tf; print(tf.config.list_physical_devices())
+import torch; print(torch.rand(5, 5).cuda()); print("I love Lambda Stack with GPUs: ", end=""); print(torch.cuda.device_count())
+import tensorflow as tf; print(tf.__version__)
+import keras; print(keras.__version__)
+import cv2; print(cv2.__version__)
+import torch; print(torch.__version__)
 ```
 
 ### Automatically Run Jupyter Lab image
