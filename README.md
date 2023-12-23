@@ -69,7 +69,7 @@ jupyter lab --ip=0.0.0.0 --port=8888 --allow-root --no-browser --core-mode
 
 ### Automatically Run Jupyter Lab image
 ```
-sudo docker run -it --gpus all -p 8888:8888 -p 6006:6006 -v /home/aiml:/root/ -e GRANT_SUDO=yes -e JUPYTER_ENABLE_LAB=yes --user root lrsoenksen/aiml-stack:latest-gpu-jupyter bash -c "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --core-mode"
+sudo docker run -it --gpus all -p 8888:8888 -p 6006:6006 -v /home/aiml:/root/ -e GRANT_SUDO=yes -e JUPYTER_ENABLE_LAB=yes --user root lrsoenksen/aiml-stack:latest-gpu-jupyter bash -c "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --core-mode --log-level='CRITICAL'"
 ```
 where the -p 6006 is the default port of TensorBoard. This will allocate a port for you to run one TensorBoard instance. If not needed, port 6006 that can be removed
 
