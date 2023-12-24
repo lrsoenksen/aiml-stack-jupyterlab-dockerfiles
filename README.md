@@ -108,7 +108,7 @@ This removes images and containers
 sudo su
 service docker stop
 cd /var/lib/docker
-rm -rf *
+rm -rf buildkit  containers  engine-id  image  network  overlay2  plugins  runtimes  swarm  tmp  volumes
 service docker start
 ```
 This resets all things Docker
