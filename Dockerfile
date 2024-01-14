@@ -2,7 +2,6 @@
 # Author: Luis Soenksen
 
 FROM ubuntu:22.04
-WORKDIR /root/
 
 # Install baseline utility tools
 ARG DEBIAN_FRONTEND=noninteractive
@@ -64,7 +63,7 @@ RUN pip install ipywidgets
 # Install Useful AI-ML and Visualization Packages
 ENV TF_CPP_MIN_LOG_LEVEL=3
 RUN apt-get update && apt-get install -y python3-opencv
-RUN pip install \
+RUN pip install -U \
 	plotly \
 	dash \
 	dask \
