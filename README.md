@@ -126,8 +126,7 @@ Reboot computer
 
 ### Useful pieces of code (OPTIONAL - DON'T DO CARELESSLY)
 
-## Give root permissions to aiml. 
-The following is a command to give full root permissions to user (aiml). [WARNING DON'T EXECUTE CARELESSLY] like this:
+Give root permissions to aiml - The following is a command to give full root permissions to user (aiml). [WARNING DON'T EXECUTE CARELESSLY] like this:
 ```
 sudo usermod -aG sudo aiml
 sudo visudo
@@ -138,8 +137,7 @@ aiml  ALL=(ALL) NOPASSWD:ALL
 ```
 
 
-## Give aiml user permissions to modify target folers and files files if you see a lock on them.
-The following is a command to recursively delete only hidden files and hidden folders in current directory [WARNING DON'T EXECUTE CARELESSLY] like this:
+Give aiml user permissions to modify target folers and files files if you see a lock on them - The following is a command to recursively delete only hidden files and hidden folders in current directory [WARNING DON'T EXECUTE CARELESSLY] like this:
 ```
 cd myfolder
 rm -rf $(ls -a | grep -e "^\.[a-zA-Z0-9_ ].*" -e ".*~")
