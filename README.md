@@ -47,14 +47,14 @@ Note that building these docker images requires acceptance of the [cuDNN license
 
 Test the image with GPU using the following commands
 ```
-sudo docker run --gpus all --rm --interactive --tty lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import tensorflow as tf; print(tf.config.list_physical_devices())'
+sudo docker run -u $(id -u):$(id -g) -v $(pwd):$(pwd) -w $(pwd) -e HOME=$(pwd)/.home -it --rm --init --gpus all --rm --interactive --tty lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import tensorflow as tf; print(tf.config.list_physical_devices())'
 ```
 ```
-sudo docker run --gpus all --rm --interactive --tty lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import torch; print(torch.rand(5, 5).cuda()); print("I love Lambda Stack with GPUs: ", end=""); print(torch.cuda.device_count())'
+sudo docker run -u $(id -u):$(id -g) -v $(pwd):$(pwd) -w $(pwd) -e HOME=$(pwd)/.home -it --rm --init --gpus all --rm --interactive --tty lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import torch; print(torch.rand(5, 5).cuda()); print("I love Lambda Stack with GPUs: ", end=""); print(torch.cuda.device_count())'
 ```
 Enter bash of the image with GPU using the following commands and then load, where "home/aiml" can be change for whatever is your desired root folder.
 ```
-sudo docker run -it --gpus all -p 8888:8888 -p 6006:6006 -v /home/aiml:/root/ -e GRANT_SUDO=yes -e JUPYTER_ENABLE_LAB=yes --user root lrsoenksen/aiml-stack:latest-gpu-jupyter bash
+sudo docker run -u $(id -u):$(id -g) -v $(pwd):$(pwd) -w $(pwd) -e HOME=$(pwd)/.home -it --rm --init --gpus all -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter bash
 ```
 And these commands can be used to test functionality
 ```
@@ -67,6 +67,22 @@ python3 -c 'import torch; print(torch.__version__)'
 jupyter lab --ip=0.0.0.0 --port=8888 --allow-root --no-browser --core-mode
 ```
 or
+
+### Automatically Run Jupyter Lab image
+```
+sudo docker run -it --gpus all -p 8888:8888 -p 6006:6006 -v /home/aiml:/root/ -e GRANT_SUDO=yes -e JUPYTER_ENABLE_LAB=yes --user root lrsoenksen/aiml-stack:latest-gpu-jupyter bash -c "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --core-mode --log-level='CRITICAL'"
+```
+where the -p 6006 is the default port of TensorBoard. This will allocate a port for you to run one TensorBoard instance. If not needed, port 6006 that can be removed.
+
+### Accessing JupyterLab
+Click on the provided URL, or at your browser just enter http://localhost:8888 and provide the token defined by you.
+If Jupyter Lab is not working try reinstalling in bash:
+```
+pip install jupyter -U && pip install jupyterlab
+```
+
+### Test AIML packages inside dockerized JupyterLab
+To test the upyter lab in docker one can execute the following code
 ```
 import tensorflow as tf; print(tf.config.list_physical_devices())
 import torch; print(torch.rand(5, 5).cuda()); print("I love Lambda Stack with GPUs: ", end=""); print(torch.cuda.device_count())
@@ -74,19 +90,6 @@ import tensorflow as tf; print(tf.__version__)
 import keras; print(keras.__version__)
 import cv2; print(cv2.__version__)
 import torch; print(torch.__version__)
-```
-
-### Automatically Run Jupyter Lab image
-```
-sudo docker run -it --gpus all -p 8888:8888 -p 6006:6006 -v /home/aiml:/root/ -e GRANT_SUDO=yes -e JUPYTER_ENABLE_LAB=yes --user root lrsoenksen/aiml-stack:latest-gpu-jupyter bash -c "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --core-mode --log-level='CRITICAL'"
-```
-where the -p 6006 is the default port of TensorBoard. This will allocate a port for you to run one TensorBoard instance. If not needed, port 6006 that can be removed
-
-### Accessing JupyterLab
-Click on the provided URL, or at your browser just enter http://localhost:8888 and provide the token defined by you.
-If Jupyter Lab is not working try reinstalling in bash:
-```
-pip install jupyter -U && pip install jupyterlab
 ```
 
 -------------------------------------------------------------------------------------------------------------------------------------
@@ -117,3 +120,29 @@ This resets all things Docker
 sudo reboot
 ```
 Reboot computer
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+### Useful pieces of code (OPTIONAL - DON'T DO CARELESSLY)
+
+## Give root permissions to aiml. 
+The following is a command to give full root permissions to user (aiml). [WARNING DON'T EXECUTE CARELESSLY] like this:
+```
+sudo usermod -aG sudo aiml
+sudo visudo
+```
+At the bottom of the file that opens, add this line for every user you want to give passwordless sudo permissions to aiml:
+```
+aiml  ALL=(ALL) NOPASSWD:ALL
+```
+
+
+## Give aiml user permissions to modify target folers and files files if you see a lock on them.
+The following is a command to recursively delete only hidden files and hidden folders in current directory [WARNING DON'T EXECUTE CARELESSLY] like this:
+```
+cd myfolder
+rm -rf $(ls -a | grep -e "^\.[a-zA-Z0-9_ ].*" -e ".*~")
+```
+This removes the lock symbol in files because they are now also owned by user
+
