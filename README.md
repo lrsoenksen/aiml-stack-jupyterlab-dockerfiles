@@ -137,7 +137,7 @@ aiml  ALL=(ALL) NOPASSWD:ALL
 ```
 
 
-Give aiml user permissions to modify target folers and files files if you see a lock on them - The following is a command to recursively delete only hidden files and hidden folders in current directory [WARNING DON'T EXECUTE CARELESSLY] like this:
+Remove hidden files - The following is a command to recursively delete only hidden files and hidden folders in current directory [WARNING DON'T EXECUTE CARELESSLY] like this:
 ```
 cd myfolder
 rm -rf $(ls -a | grep -e "^\.[a-zA-Z0-9_ ].*" -e ".*~")
