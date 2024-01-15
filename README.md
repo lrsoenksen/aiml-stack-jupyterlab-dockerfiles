@@ -140,7 +140,7 @@ aiml  ALL=(ALL) NOPASSWD:ALL
 Remove hidden files - The following is a command to recursively delete only hidden files and hidden folders in current directory [WARNING DON'T EXECUTE CARELESSLY] like this:
 ```
 cd myfolder
-rm -rf $(ls -a | grep -e "^\.[a-zA-Z0-9_ ].*" -e ".*~")
+find -name '.*' ! -name '.' ! -name '..' -delete
 ```
 This removes the lock symbol in files because they are now also owned by user
 
