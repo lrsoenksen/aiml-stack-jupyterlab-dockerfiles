@@ -1,7 +1,7 @@
-# AIML Docker  Ubuntu:22.04 Jammy Container with GPU enabled Tensorflow, Keras, PyTorch and Jupyter Lab
+# AIML Docker  Ubuntu:20.04 Focal Container with GPU enabled Tensorflow, Keras, PyTorch and Jupyter Lab
 # Author: Luis Soenksen
 
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 # Install baseline utility tools
 ARG DEBIAN_FRONTEND=noninteractive
@@ -91,8 +91,3 @@ RUN pip install -U \
 	transformers
 
 # Add more PIP installs here --^
-
-# Setup for nvidia-docker
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
-ENV NVIDIA_REQUIRE_CUDA "cuda>=11.8"
