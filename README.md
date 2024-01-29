@@ -1,5 +1,5 @@
 # AIML Docker Container 
-## with Ubuntu:22.04 Jammy and GPU enabled Tensorflow, Keras, PyTorch, Jupyter Lab
+## with Ubuntu:20.04 Focal and GPU enabled Tensorflow, Keras, PyTorch, Jupyter Lab
 ### Author: Luis Soenksen
 
 Dockerfile with rolling-release based on official LambdaStack docker support, designed for use with nvidia-container-toolkit. CHeck [LambdaStack Docker's installation instructions](https://github.com/lambdal/lambda-stack-dockerfiles) and [LambdaStack Docker GPU tutorial](https://lambdalabs.com/blog/set-up-a-tensorflow-gpu-docker-container-using-lambda-stack-dockerfile) for more information.
