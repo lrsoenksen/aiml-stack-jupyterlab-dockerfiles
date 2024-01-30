@@ -58,7 +58,7 @@ sudo docker run -u $(id -u):$(id -g) -v $(pwd):$(pwd) -w $(pwd) -e HOME=$(pwd)/.
 ```
 And these commands can be used to test functionality
 ```
-python3 -c 'import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))'
+python3 -c 'import tensorflow as tf; print(tf.config.list_physical_devices())'
 python3 -c 'import torch; print(torch.rand(5, 5).cuda()); print("I love Lambda Stack with GPUs: ", end=""); print(torch.cuda.device_count())'
 python3 -c 'import tensorflow as tf; print(tf.__version__)'
 python3 -c 'import keras; print(keras.__version__)'
