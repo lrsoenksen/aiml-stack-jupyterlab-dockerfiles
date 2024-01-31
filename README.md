@@ -100,6 +100,8 @@ The following is a radical solution. But if needed one can DELETES ALL YOUR DOCK
 docker container prune -f
 docker image prune -f
 docker volume prune -f
+docker system prune -f
+docker builder prune -f
 
 docker stop $(docker ps -a -q)
 docker rm -f $(docker ps -a -q)
