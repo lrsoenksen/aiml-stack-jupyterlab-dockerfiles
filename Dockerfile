@@ -1,7 +1,8 @@
-# AIML Docker  Ubuntu:20.04 Focal Container with GPU enabled Tensorflow, Keras, PyTorch and Jupyter Lab
+# AIML Docker  Ubuntu:22.04 Jammy Container with GPU enabled Tensorflow, Keras, PyTorch and Jupyter Lab
 # Author: Luis Soenksen
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04
+WORKDIR /root/
 
 # Install baseline utility tools
 ARG DEBIAN_FRONTEND=noninteractive
@@ -13,7 +14,8 @@ RUN apt-get update && apt-get install -y\
 	build-essential \
 	curl \
 	yarn \
-	npm &&\
+	npm \
+	node &&\
 	rm -rf /var/lib/apt/lists/*
 
 # Add libcuda dummy dependency
@@ -30,9 +32,9 @@ RUN apt-get update && \
 ADD lambda.gpg .
 RUN apt-get update && \
 	apt-get install --yes gnupg && \
-	apt-key add lambda.gpg && \
+	gpg --dearmor -o /etc/apt/trusted.gpg.d/lambda.gpg < lambda.gpg && \
 	rm lambda.gpg && \
-	echo "deb http://archive.lambdalabs.com/ubuntu focal main" > /etc/apt/sources.list.d/lambda.list && \
+	echo "deb http://archive.lambdalabs.com/ubuntu jammy main" > /etc/apt/sources.list.d/lambda.list && \
 	echo "Package: *" > /etc/apt/preferences.d/lambda && \
 	echo "Pin: origin archive.lambdalabs.com" >> /etc/apt/preferences.d/lambda && \
 	echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/lambda && \
@@ -53,12 +55,10 @@ ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 ENV NVIDIA_REQUIRE_CUDA "cuda>=11.8"
 
-
 # Prepare Container with JupyterLab and JupyterLab extensions
 ENV PIP_ROOT_USER_ACTION=ignore
 RUN pip install --upgrade jupyterlab
 RUN pip install ipywidgets
-
 
 # Install Useful AI-ML and Visualization Packages
 ENV TF_CPP_MIN_LOG_LEVEL=3
@@ -77,6 +77,7 @@ RUN pip install -U \
 	opencv-python \
 	nlp \
 	nltk \
+	tensorflow \
 	tensorboard \
 	tensorflow-hub \
 	tensorflow_datasets \
