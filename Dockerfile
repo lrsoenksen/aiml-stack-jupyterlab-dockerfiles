@@ -63,7 +63,7 @@ RUN pip install ipywidgets
 # Install Useful AI-ML and Visualization Packages
 ENV TF_CPP_MIN_LOG_LEVEL=3
 RUN apt-get update && apt-get install -y python3-opencv
-RUN pip install -U \
+RUN pip install \
 	plotly \
 	dash \
 	dask \
