@@ -84,7 +84,6 @@ RUN pip install -U \
 	wandb \
 	lime \
 	theano \
-	torch \
 	torchaudio \
 	torchvision \
 	autokeras \
