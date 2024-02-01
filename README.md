@@ -1,5 +1,5 @@
 # AIML Docker Container 
-## with Ubuntu:20.04 Focal and GPU enabled Tensorflow, Keras, PyTorch, Jupyter Lab
+## with Ubuntu:22.04 Jammy and GPU enabled Tensorflow, Keras, PyTorch, Jupyter Lab
 ### Author: Luis Soenksen
 
 Dockerfile with rolling-release based on official LambdaStack docker support, designed for use with nvidia-container-toolkit. CHeck [LambdaStack Docker's installation instructions](https://github.com/lambdal/lambda-stack-dockerfiles) and [LambdaStack Docker GPU tutorial](https://lambdalabs.com/blog/set-up-a-tensorflow-gpu-docker-container-using-lambda-stack-dockerfile) for more information.
@@ -10,13 +10,13 @@ A) Install Lambda Stack from Lambdalabs.com (always updated AI software stack)
 wget -nv -O- https://lambdalabs.com/install-lambda-stack.sh | I_AGREE_TO_THE_CUDNN_LICENSE=1 sh -
 sudo reboot
 ```
-B) Ensure Lmbda Stack software is up-to-date with the following simple command:
-```
-sudo apt-get update && sudo apt-get dist-upgrade
-```
-C) After you've installed Lambda Stack, install GPU accelerated Docker with this command:
+B) After you've installed Lambda Stack, install GPU accelerated Docker with this command:
 ```
 sudo apt-get install docker.io nvidia-container-toolkit
+```
+C) Ensure Lmbda Stack software is up-to-date with the following simple command:
+```
+sudo apt-get update && sudo apt-get dist-upgrade
 ```
 
 Note:
@@ -137,7 +137,7 @@ dpkg -l | \
 awk '/cuda|lib(accinj64|cu(blas|dart|dnn|fft|inj|pti|rand|solver|sparse)|magma|nccl|npp|nv[^p])|nv(idia|ml)|tensor(flow|board)|torch/ { print $2 }' | \
 sudo xargs -or apt -y remove --purge
 ```
-Then, install the latest Lambda Stack by running:
+Then, re-install the latest Lambda Stack by running:
 ```
 wget -nv -O- https://lambdalabs.com/install-lambda-stack.sh | I_AGREE_TO_THE_CUDNN_LICENSE=1 sh -
 ```
