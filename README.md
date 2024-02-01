@@ -2,7 +2,7 @@
 ## with Ubuntu:22.04 Jammy and GPU enabled Tensorflow, Keras, PyTorch, Jupyter Lab
 ### Author: Luis Soenksen
 
-Dockerfile with rolling-release based on official LambdaStack docker support, designed for use with nvidia-container-toolkit. CHeck [LambdaStack Docker's installation instructions](https://github.com/lambdal/lambda-stack-dockerfiles) and [LambdaStack Docker GPU tutorial](https://lambdalabs.com/blog/set-up-a-tensorflow-gpu-docker-container-using-lambda-stack-dockerfile) for more information.
+Dockerfile with rolling-release based on official LambdaStack docker support, designed for use with nvidia-container-toolkit. Check [LambdaStack Docker's installation instructions](https://github.com/lambdal/lambda-stack-dockerfiles) and [LambdaStack Docker GPU tutorial](https://lambdalabs.com/blog/set-up-a-tensorflow-gpu-docker-container-using-lambda-stack-dockerfile) for more information. This is all optimized to work on the LambdaLabs Tensorbook, which comes with a recovery [ISO Recovery image based on Ubuntu 22.04 LTS jammy](https://files.lambdalabs.com/recovery/tensorbook-jammy-20230704.iso). 
 
 ### Installing foundational stuff for Lambdabook (lambda-stack & nvidia-container-toolkit)
 A) Install Lambda Stack from Lambdalabs.com (always updated AI software stack)
