@@ -10,9 +10,15 @@ A) Install Lambda Stack from Lambdalabs.com (always updated AI software stack)
 wget -nv -O- https://lambdalabs.com/install-lambda-stack.sh | I_AGREE_TO_THE_CUDNN_LICENSE=1 sh -
 sudo reboot
 ```
-B) After you've installed Lambda Stack, install GPU accelerated Docker with this command:
+B) Ensure Lmbda Stack software is up-to-date with the following simple command:
 ```
-sudo apt-get install docker.io nvidia-container-toolkit
+sudo apt-get update && sudo apt-get dist-upgrade
+```
+C) After you've installed Lambda Stack, install GPU accelerated Docker with this command:
+```
+sudo apt-get install docker.io nvidia-container-toolkit && \
+sudo systemctl daemon-reload && \
+sudo systemctl restart docker
 ```
 C) Ensure Lmbda Stack software is up-to-date with the following simple command:
 ```
