@@ -20,10 +20,6 @@ sudo apt-get install docker.io nvidia-container-toolkit && \
 sudo systemctl daemon-reload && \
 sudo systemctl restart docker
 ```
-C) Ensure Lmbda Stack software is up-to-date with the following simple command:
-```
-sudo apt-get update && sudo apt-get dist-upgrade
-```
 
 Note:
 Ensure that you have a docker version > 19.03. On Ubuntu, you can simply run `sudo apt-get install docker.io`. On a different OS, or if you prefer to use upstream docker, follow [Docker's installation instructions](https://docs.docker.com/engine/install/ubuntu/). If using Lambda Stack on your host machine, install nvidia-container-toolkit with `sudo apt-get install nvidia-container-toolkit`. Otherwise, follow [NVIDIA's installation instructions](https://github.com/NVIDIA/nvidia-docker)
