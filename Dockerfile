@@ -77,7 +77,6 @@ RUN pip install -U \
 	opencv-python \
 	nlp \
 	nltk \
-	tensorflow \
 	tensorboard \
 	tensorflow-hub \
 	tensorflow_datasets \
