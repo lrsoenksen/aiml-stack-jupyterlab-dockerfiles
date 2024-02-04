@@ -161,11 +161,17 @@ At the bottom of the file that opens, add this line for every user you want to g
 aiml  ALL=(ALL) NOPASSWD:ALL
 ```
 
-
 Remove hidden files - The following is a command to recursively delete only hidden files and hidden folders in current directory [WARNING DON'T EXECUTE CARELESSLY] like this:
 ```
 cd myfolder
 find -name '.*' ! -name '.' ! -name '..' -delete
 ```
 This removes the lock symbol in files because they are now also owned by user
+
+To give read, write and execute permissions for a file or folder to all who wants to access it you can use the following command in terminal:
+```
+sudo chmod a+rwx '/path/file_or_dir'
+```
+Note: a=All (u=User, g=Group) and rwx is Read, Write and eXecute. + means add permission, - means remove permission.
+
 
