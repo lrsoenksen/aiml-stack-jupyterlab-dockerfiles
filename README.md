@@ -52,14 +52,14 @@ Note that building these docker images requires acceptance of the [cuDNN license
 
 Test the image with GPU using the following commands
 ```
-sudo docker run -u $(id -u):$(id -g) -v $(pwd):$(pwd) -w $(pwd) -e HOME=$(pwd)/.home -it --rm --init --gpus all --rm --interactive --tty lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import tensorflow as tf; print(tf.config.list_physical_devices())'
+sudo docker run --user $(id -u):$(id -g) --volume $(pwd):$(pwd) --workdir $(pwd) --rm --init --interactive --shm-size=32g --gpus all -e GRANT_SUDO=yes -e HOME=$(pwd)/home -e JUPYTER_ENABLE_LAB=yes -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import tensorflow as tf; print(tf.config.list_physical_devices())'
 ```
 ```
-sudo docker run -u $(id -u):$(id -g) -v $(pwd):$(pwd) -w $(pwd) -e HOME=$(pwd)/.home -it --rm --init --gpus all --rm --interactive --tty lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import torch; print(torch.rand(5, 5).cuda()); print("I love Lambda Stack with GPUs: ", end=""); print(torch.cuda.device_count())'
+sudo docker run --user $(id -u):$(id -g) --volume $(pwd):$(pwd) --workdir $(pwd) --rm --init --interactive --shm-size=32g --gpus all -e GRANT_SUDO=yes -e HOME=$(pwd)/home -e JUPYTER_ENABLE_LAB=yes -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import torch; print(torch.rand(5, 5).cuda()); print("I love Lambda Stack with GPUs: ", end=""); print(torch.cuda.device_count())'
 ```
 Enter bash of the image with GPU using the following commands and then load, where "home/aiml" can be change for whatever is your desired root folder.
 ```
-sudo docker run -u $(id -u):$(id -g) -v $(pwd):$(pwd) -w $(pwd) -e HOME=$(pwd)/.home -it --rm --init --gpus all -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter bash
+sudo docker run --user $(id -u):$(id -g) --volume $(pwd):$(pwd) --workdir $(pwd) --rm --init --interactive --shm-size=32g --gpus all -e GRANT_SUDO=yes -e HOME=$(pwd)/home -e JUPYTER_ENABLE_LAB=yes -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter bash
 ```
 And these commands can be used to test functionality
 ```
@@ -75,7 +75,7 @@ or
 
 ### Automatically Run Jupyter Lab image
 ```
-sudo docker run -u $(id -u):$(id -g) -v $(pwd):$(pwd) -w $(pwd) -e HOME=$(pwd)/.home -it --rm --init --shm-size=32g --gpus all -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter bash -c "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --core-mode --log-level='CRITICAL'"
+sudo docker run --user $(id -u):$(id -g) --volume $(pwd):$(pwd) --workdir $(pwd) --rm --init --interactive --shm-size=32g --gpus all -e GRANT_SUDO=yes -e HOME=$(pwd)/home -e JUPYTER_ENABLE_LAB=yes -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter bash -c "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --core-mode --log-level='CRITICAL'"
 ```
 where the -p 6006 is the default port of TensorBoard. This will allocate a port for you to run one TensorBoard instance. If not needed, port 6006 that can be removed.
 
