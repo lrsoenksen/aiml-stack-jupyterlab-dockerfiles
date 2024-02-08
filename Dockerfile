@@ -14,8 +14,7 @@ RUN apt-get update && apt-get install -y\
 	build-essential \
 	curl \
 	yarn \
-	npm \
-	node &&\
+	npm &&\
 	rm -rf /var/lib/apt/lists/*
 
 # Add libcuda dummy dependency
@@ -64,29 +63,30 @@ RUN pip install ipywidgets
 ENV TF_CPP_MIN_LOG_LEVEL=3
 RUN apt-get update && apt-get install -y python3-opencv
 RUN pip install \
-	plotly \
+	tqdm \
 	dash \
 	dask \
-	tqdm \
-	shap \
-	scipy \
-	seaborn \
-	scikit-learn \
-	scikit-image \
-	matplotlib \
-	opencv-python \
-	nlp \
-	nltk \
+	tensorflow \
 	tensorboard \
 	tensorflow-hub \
 	tensorflow_datasets \
-	wandb \
-	lime \
 	theano \
+	torch \
 	torchaudio \
 	torchvision \
 	autokeras \
 	lazypredict \
-	transformers
+	transformers \
+	scipy \
+	scikit-learn \
+	scikit-image \
+	matplotlib \
+	plotly \
+	seaborn \
+	shap \
+	lime \
+	nlp \
+	nltk \
+	wandb
 
 # Add more PIP installs here --^
