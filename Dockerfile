@@ -2,6 +2,7 @@
 # Author: Luis Soenksen
 
 FROM ubuntu:22.04
+
 WORKDIR /root/
 
 # Install baseline utility tools
@@ -49,14 +50,9 @@ RUN apt-get update && \
 		lambda-server && \
 	rm -rf /var/lib/apt/lists/*
 
-# Setup for nvidia-docker
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
-ENV NVIDIA_REQUIRE_CUDA "cuda>=11.8"
-
 # Prepare Container with JupyterLab and JupyterLab extensions
 ENV PIP_ROOT_USER_ACTION=ignore
-RUN pip install --upgrade jupyterlab
+RUN pip install --upgrade jupyterlab ipython ipykernel
 RUN pip install ipywidgets
 
 # Install Useful AI-ML and Visualization Packages
@@ -66,27 +62,25 @@ RUN pip install \
 	tqdm \
 	dash \
 	dask \
-	tensorflow \
-	tensorboard \
 	tensorflow-hub \
 	tensorflow_datasets \
 	theano \
-	torch \
-	torchaudio \
-	torchvision \
 	autokeras \
 	lazypredict \
 	transformers \
-	scipy \
-	scikit-learn \
-	scikit-image \
-	matplotlib \
 	plotly \
-	seaborn \
 	shap \
 	lime \
 	nlp \
 	nltk \
 	wandb
-
 # Add more PIP installs here --^
+
+# Adjust any packages that seem to be conflicting
+RUN ppip install numpy==1.24
+# Adjust more PIP installs here --^
+
+# Setup for nvidia-docker
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+ENV NVIDIA_REQUIRE_CUDA "cuda>=11.8"
