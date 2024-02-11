@@ -77,7 +77,7 @@ RUN pip install \
 # Add more PIP installs here --^
 
 # Adjust any packages that seem to be conflicting
-RUN ppip install numpy==1.24
+RUN pip install numpy==1.24
 # Adjust more PIP installs here --^
 
 # Setup for nvidia-docker
