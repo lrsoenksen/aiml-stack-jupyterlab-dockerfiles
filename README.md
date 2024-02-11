@@ -2,7 +2,7 @@
 ## with Ubuntu:22.04 Jammy and GPU enabled Tensorflow, Keras, PyTorch, Jupyter Lab
 ### Author: Luis Soenksen
 
-Dockerfile with rolling-release based on official LambdaStack docker support, designed for use with nvidia-container-toolkit. Check [LambdaStack Docker's installation instructions](https://github.com/lambdal/lambda-stack-dockerfiles) and [LambdaStack Docker GPU tutorial](https://lambdalabs.com/blog/set-up-a-tensorflow-gpu-docker-container-using-lambda-stack-dockerfile) for more information. This is all optimized to work on the LambdaLabs Tensorbook, which comes with a recovery [ISO Recovery image based on Ubuntu 22.04 LTS jammy](https://files.lambdalabs.com/recovery/tensorbook-jammy-20230704.iso), which means using also Ubuntu 22.04 LTS jammy for  docker containers may prevent local and global dependency issues later.
+Dockerfile with rolling-release based on official LambdaStack docker support, designed for use with nvidia-container-toolkit. Check [LambdaStack Docker's installation instructions](https://github.com/lambdal/lambda-stack-dockerfiles) and [LambdaStack Docker GPU tutorial](https://lambdalabs.com/blog/set-up-a-tensorflow-gpu-docker-container-using-lambda-stack-dockerfile) for more information. This is all optimized to work on the LambdaLabs Tensorbook, which comes with a recovery [ISO Recovery image based on Ubuntu 22.04 LTS jammy](https://files.lambdalabs.com/recovery/tensorbook-jammy-20230704.iso), which means using also Ubuntu 22.04 LTS jammy for  docker containers may prevent local and global dependency issues later. If installing from iso, the image already comes with lambda'stack and can skip step A.
 
 ### Installing foundational stuff for Lambdabook (lambda-stack & nvidia-container-toolkit)
 A) Install Lambda Stack from Lambdalabs.com (always updated AI software stack)
@@ -10,14 +10,14 @@ A) Install Lambda Stack from Lambdalabs.com (always updated AI software stack)
 wget -nv -O- https://lambdalabs.com/install-lambda-stack.sh | I_AGREE_TO_THE_CUDNN_LICENSE=1 sh -
 sudo reboot
 ```
-B) Ensure Lmbda Stack software is up-to-date with the following simple command:
+B) Ensure Lmbda Stack software is up-to-date with the following simple command (make sure to be present in case the system asks for licence agreement):
 ```
 sudo apt-get update && sudo apt-get dist-upgrade
 ```
 C) After you've installed Lambda Stack, install GPU accelerated Docker with this command:
 ```
-sudo apt-get install docker.io nvidia-container-toolkit && \
-sudo systemctl daemon-reload && \
+sudo apt-get install docker.io nvidia-container-toolkit
+sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 D) Add your user to the docker group by running:
@@ -52,14 +52,14 @@ Note that building these docker images requires acceptance of the [cuDNN license
 
 Test the image with GPU using the following commands
 ```
-sudo docker run --user $(id -u):$(id -g) --volume $(pwd):$(pwd) --workdir $(pwd) --rm --init --interactive --shm-size=32g --gpus all -e GRANT_SUDO=yes -e HOME=$(pwd)/home -e JUPYTER_ENABLE_LAB=yes -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import tensorflow as tf; print(tf.config.list_physical_devices())'
+sudo docker run -it --user $(id -u):$(id -g) --volume $(pwd):$(pwd) --workdir $(pwd) --rm --init --shm-size=32g --gpus all -e GRANT_SUDO=yes -e HOME=$(pwd)/.home -e JUPYTER_ENABLE_LAB=yes -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import tensorflow as tf; print(tf.config.list_physical_devices())'
 ```
 ```
-sudo docker run --user $(id -u):$(id -g) --volume $(pwd):$(pwd) --workdir $(pwd) --rm --init --interactive --shm-size=32g --gpus all -e GRANT_SUDO=yes -e HOME=$(pwd)/home -e JUPYTER_ENABLE_LAB=yes -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import torch; print(torch.rand(5, 5).cuda()); print("I love Lambda Stack with GPUs: ", end=""); print(torch.cuda.device_count())'
+sudo docker run -it --user $(id -u):$(id -g) --volume $(pwd):$(pwd) --workdir $(pwd) --rm --init --shm-size=32g --gpus all -e GRANT_SUDO=yes -e HOME=$(pwd)/.home -e JUPYTER_ENABLE_LAB=yes -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter /usr/bin/python3 -c 'import torch; print(torch.rand(5, 5).cuda()); print("I love Lambda Stack with GPUs: ", end=""); print(torch.cuda.device_count())'
 ```
 Enter bash of the image with GPU using the following commands and then load, where "home/aiml" can be change for whatever is your desired root folder.
 ```
-sudo docker run --user $(id -u):$(id -g) --volume $(pwd):$(pwd) --workdir $(pwd) --rm --init --interactive --shm-size=32g --gpus all -e GRANT_SUDO=yes -e HOME=$(pwd)/home -e JUPYTER_ENABLE_LAB=yes -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter bash
+sudo docker run -it --user $(id -u):$(id -g) --volume $(pwd):$(pwd) --workdir $(pwd) --rm --init --shm-size=32g --gpus all -e GRANT_SUDO=yes -e HOME=$(pwd)/.home -e JUPYTER_ENABLE_LAB=yes -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter bash 
 ```
 And these commands can be used to test functionality
 ```
@@ -75,13 +75,13 @@ or
 
 ### Automatically Run Jupyter Lab image
 ```
-sudo docker run --user $(id -u):$(id -g) --volume $(pwd):$(pwd) --workdir $(pwd) --rm --init --interactive --shm-size=32g --gpus all -e GRANT_SUDO=yes -e HOME=$(pwd)/home -e JUPYTER_ENABLE_LAB=yes -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter bash -c "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --core-mode --log-level='CRITICAL'"
+sudo docker run -it --user $(id -u):$(id -g) --volume $(pwd):$(pwd) --workdir $(pwd) --rm --init --shm-size=32g --gpus all -e GRANT_SUDO=yes -e HOME=$(pwd)/.home -e JUPYTER_ENABLE_LAB=yes -p 8888:8888 -p 6006:6006 lrsoenksen/aiml-stack:latest-gpu-jupyter bash -c "jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --core-mode --log-level='CRITICAL'"
 ```
 where the -p 6006 is the default port of TensorBoard. This will allocate a port for you to run one TensorBoard instance. If not needed, port 6006 that can be removed.
 
 ### Accessing JupyterLab
 Click on the provided URL, or at your browser just enter http://localhost:8888 and provide the token defined by you.
-If Jupyter Lab is not working try reinstalling in bash:
+If Jupyter Lab is not working try reinstalling from bash:
 ```
 pip install jupyter -U && pip install jupyterlab
 ```
@@ -153,10 +153,10 @@ wget -nv -O- https://lambdalabs.com/install-lambda-stack.sh | I_AGREE_TO_THE_CUD
 
 Give root permissions to aiml - The following is a command to give full root permissions to user (aiml). [WARNING DON'T EXECUTE CARELESSLY] like this:
 ```
-sudo usermod -aG sudo aiml
+sudo usermod -aG sudo $(whoami)
 sudo visudo
 ```
-At the bottom of the file that opens, add this line for every user you want to give passwordless sudo permissions to aiml:
+At the bottom of the file that opens (really at the end, after all text), add this line for every user you want to give passwordless sudo permissions to aiml:
 ```
 aiml  ALL=(ALL) NOPASSWD:ALL
 ```
