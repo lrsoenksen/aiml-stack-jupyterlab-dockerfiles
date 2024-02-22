@@ -174,4 +174,10 @@ sudo chmod a+rwx '/path/file_or_dir'
 ```
 Note: a=All (u=User, g=Group) and rwx is Read, Write and eXecute. + means add permission, - means remove permission.
 
+At times jupyter and python in docker will complain that .local/bin folder is innaccessible due to permissions in path, to add such folder to path execute the following command in terminal:
+```
+export PATH=$PATH:$HOME/.home/.local/bin
+source ~/.bashrc
+```
+
 
