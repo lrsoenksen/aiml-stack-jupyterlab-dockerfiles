@@ -176,8 +176,14 @@ Note: a=All (u=User, g=Group) and rwx is Read, Write and eXecute. + means add pe
 
 At times jupyter and python in docker will complain that .local/bin folder is innaccessible due to permissions in path, to add such folder to path execute the following command in terminal:
 ```
-export PATH=$PATH:$HOME/.home/.local/bin
-source ~/.bashrc
+# First go to edit the .bashrc file with Vim 
+vim .bashrc
+
+# Add this test to the very end of the file to permanently add that folder to PATH
+export PATH=$HOME/.home/.local/bin:$PATH
+
+# Press Escape and then write :wq to write and save in Vim.
+
 ```
 
 
