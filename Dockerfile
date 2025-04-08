@@ -1,86 +1,57 @@
 # AIML Docker  Ubuntu:22.04 Jammy Container with GPU enabled Tensorflow, Keras, PyTorch and Jupyter Lab
 # Author: Luis Soenksen
+# Last Update: 07-April-2025
 
-FROM ubuntu:22.04
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 
 WORKDIR /root/
 
-# Install baseline utility tools
+# Install baseline system dependencies and utility tools
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y\
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
 	sudo \
 	wget \
 	git-core \
 	apt-utils \
 	build-essential \
 	curl \
+	git \
+	python3 \
+	python3-pip \
 	yarn \
-	npm &&\
-	rm -rf /var/lib/apt/lists/*
+	npm \
+	&& rm -rf /var/lib/apt/lists/*
 
-# Add libcuda dummy dependency
-ADD control .
-RUN apt-get update && \
-	DEBIAN_FRONTEND=noninteractive apt-get install --yes equivs && \
-	equivs-build control && \
-	dpkg -i libcuda1-dummy_11.8_all.deb && \
-	rm control libcuda1-dummy_11.8* && \
-	apt-get remove --yes --purge --autoremove equivs && \
-	rm -rf /var/lib/apt/lists/*
 
-# Setup Lambda repository
-ADD lambda.gpg .
-RUN apt-get update && \
-	apt-get install --yes gnupg && \
-	gpg --dearmor -o /etc/apt/trusted.gpg.d/lambda.gpg < lambda.gpg && \
-	rm lambda.gpg && \
-	echo "deb http://archive.lambdalabs.com/ubuntu jammy main" > /etc/apt/sources.list.d/lambda.list && \
-	echo "Package: *" > /etc/apt/preferences.d/lambda && \
-	echo "Pin: origin archive.lambdalabs.com" >> /etc/apt/preferences.d/lambda && \
-	echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/lambda && \
-	echo "cudnn cudnn/license_preseed select ACCEPT" | debconf-set-selections && \
-	apt-get update && \
-	DEBIAN_FRONTEND=noninteractive \
-		apt-get install \
-		--yes \
-		--no-install-recommends \
-		--option "Acquire::http::No-Cache=true" \
-		--option "Acquire::http::Pipeline-Depth=0" \
-		lambda-stack-cuda \
-		lambda-server && \
-	rm -rf /var/lib/apt/lists/*
+# Set up Python environment
+RUN pip3 install --upgrade pip setuptools wheel
 
-# Prepare Container with JupyterLab and JupyterLab extensions
-ENV PIP_ROOT_USER_ACTION=ignore
-RUN pip install --upgrade jupyterlab ipython ipykernel
-RUN pip install ipywidgets
+# Install TensorFlow (with GPU support for CUDA 11.8)
+RUN pip3 install tensorflow==2.15.0
 
-# Install Useful AI-ML and Visualization Packages
-ENV TF_CPP_MIN_LOG_LEVEL=3
+# Install PyTorch with CUDA 11.8 support
+RUN pip3 install torch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 --index-url https://download.pytorch.org/whl/cu118
+
+# Install Jupyter ecosystem and scientific/ML tools
 RUN apt-get update && apt-get install -y python3-opencv
-RUN pip install \
-	tqdm \
-	dash \
-	dask \
-	tensorflow-hub \
-	tensorflow_datasets \
-	theano \
-	autokeras \
-	lazypredict \
-	transformers \
-	plotly \
-	shap \
-	lime \
-	nlp \
-	nltk \
-	wandb
-# Add more PIP installs here --^
+RUN pip3 install \
+    jupyterlab \
+    notebook \
+    ipython \
+    ipykernel \
+    ipywidgets \
+    tqdm \
+    dash \
+    dask \
+    plotly \
+    shap \
+    unsloth
 
-# Adjust any packages that seem to be conflicting
-RUN pip install numpy==1.24
-# Adjust more PIP installs here --^
+# Set environment variables for NVIDIA runtime
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
-# Setup for nvidia-docker
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
-ENV NVIDIA_REQUIRE_CUDA "cuda>=11.8"
+# Set environment variables to remove unnecessary verbose and smooth unsloth
+ENV TF_CPP_MIN_LOG_LEVEL=3
+ENV USER=root  # This is the equivalent of os.environ["USER"] = "root"
