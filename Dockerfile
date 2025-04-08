@@ -23,8 +23,8 @@ RUN apt-get update && \
 	npm \
 	&& rm -rf /var/lib/apt/lists/*
 
-
 # Set up Python environment
+ENV PIP_ROOT_USER_ACTION=ignore
 RUN pip3 install --upgrade pip setuptools wheel
 
 # Install TensorFlow (with GPU support for CUDA 11.8)
