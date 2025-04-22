@@ -54,4 +54,4 @@ ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
 
 # Set environment variables to remove unnecessary verbose and smooth unsloth
 ENV TF_CPP_MIN_LOG_LEVEL=3
-ENV USER=root  # This is the equivalent of os.environ["USER"] = "root"
+ENV USER=root
