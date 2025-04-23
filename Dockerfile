@@ -19,6 +19,7 @@ RUN apt-get update && \
 	git \
 	python3 \
 	python3-pip \
+ 	python3-dev \
 	yarn \
 	&& rm -rf /var/lib/apt/lists/*
 
