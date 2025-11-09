@@ -161,6 +161,13 @@ At the bottom of the file that opens (really at the end, after all text), add th
 aiml  ALL=(ALL) NOPASSWD:ALL
 ```
 
+MAC .dot files (hidden) removal - The following is a command to recursively delete only hidden files and hidden folders in current directory [WARNING DON'T EXECUTE CARELESSLY] like this:
+```
+cd myfolder
+dot_clean -mv "/target_folder"
+```
+This removes the lock symbol in files because they are now also owned by user
+
 Remove hidden files - The following is a command to recursively delete only hidden files and hidden folders in current directory [WARNING DON'T EXECUTE CARELESSLY] like this:
 ```
 cd myfolder
